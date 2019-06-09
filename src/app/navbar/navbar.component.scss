@@ -1,0 +1,66 @@
+.navbar {
+  height: 100vh;
+}
+
+.example-fill-remaining-space {
+  /* This fills the remaining space, by using flexbox.
+Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
+}
+
+.menu {
+  color: white;
+  padding-right: 30px;
+}
+
+.logo {
+  width: 50px;
+  height: auto;
+  padding-left: 20px;
+}
+
+.menu-itens {
+  margin-top: 5px;
+  text-align: left;
+}
+
+.menu-icon {
+  margin-right: 5px;
+}
+
+.media-toolbar {
+  position: fixed;
+  bottom: 0;
+}
+
+.sidenav {
+  height: 100%;
+}
+
+.toolbar-row {
+  height: 320px;
+  display: table-cell;
+  vertical-align: top;
+  padding-top: 30px;
+}
+
+.password-field {
+  width: 100%;
+  text-align: left;
+}
+
+.password-field {
+  padding-top: 30px;
+}
+
+.forgotten-password {
+  color: white;
+  font-size: 10px;
+  text-decoration: underline;
+}
+
+.example-button-row button,
+.example-button-row a {
+  margin-top: 10px;
+  margin-left: 8px;
+}

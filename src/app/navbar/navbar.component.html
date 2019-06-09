@@ -1,0 +1,57 @@
+<div class="navbar">
+  
+  <mat-toolbar color="primary">
+  
+    <button mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon class="menu">menu</mat-icon>
+    </button>
+    <span>Serenata de Natal</span>    
+    <img class="logo" src="../../assets/logo.png" />
+    <!-- This fills the remaining space of the current row -->
+    <span class="example-fill-remaining-space"></span>
+  
+    <app-search-bar></app-search-bar>    
+  </mat-toolbar>
+
+  <mat-sidenav-container class="sidenav">
+
+    <router-outlet></router-outlet>
+
+    <mat-sidenav #sidenav>
+    
+      <mat-toolbar color="accent">
+        <mat-toolbar-row class="toolbar-row">
+          
+          <app-email-field></app-email-field>
+
+          <mat-form-field class="password-field">
+            <input matInput type="password" placeholder="Senha">
+          </mat-form-field>
+          
+          <div><a class="forgotten-password" href="#" mat-button>esqueci minha senha</a></div>
+
+          <div class="example-button-row">
+            <a mat-raised-button routerLink=".">Entar</a>
+            <a mat-raised-button routerLink=".">Cadastrar</a>
+          </div>
+
+        </mat-toolbar-row>
+      </mat-toolbar>
+        
+      <app-menu-item [icon]='homeIcon' [text]='homeText' [link]='homeLink'></app-menu-item>        
+      <app-menu-item [icon]='imageIcon' [text]='imageText' [link]='imageLink'></app-menu-item>        
+      <app-menu-item [icon]='musicIcon' [text]='musicText' [link]='musicLink'></app-menu-item>
+      <app-menu-item [icon]='infoIcon' [text]='infoText' [link]='infoLink'></app-menu-item>
+
+      <mat-toolbar class="media-toolbar" color="accent">
+        <mat-toolbar-row>
+          <app-media-icon [link]='facebookLink' [icon]='facebookIcon'></app-media-icon>
+          <app-media-icon [link]='youtubeLink' [icon]='youtubeIcon'></app-media-icon>
+          <app-media-icon [link]='instagramLink' [icon]='instagramIcon'></app-media-icon>
+          <app-media-icon [link]='githubLink' [icon]='githubIcon'></app-media-icon>
+        </mat-toolbar-row>
+      </mat-toolbar>
+  
+   </mat-sidenav>
+  </mat-sidenav-container>
+</div>
