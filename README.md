@@ -14,7 +14,7 @@ O coral também visa auxiliar diversas entidades carentes com doações de alime
 ## Dependências
 
 [NodeJS](https://nodejs.org/en/)  
-[Angular](https://angular.io)
+[Angular](https://angular.io)  
 [Yarn](https://yarnpkg.com/en/)
 
 ## Instalando dependências
