@@ -1,27 +1,32 @@
+var bcrypt = require('bcrypt'); 
+
 exports.signin = function(request, response) {
-	var username = request.body.username;
+    var username = request.body.username;
     var password = request.body.password;
  
-    var sql = "SELECT u.lgn_usuario, r.idt_cod_regente, r.bln_admin_regente from tb_usuario u LEFT JOIN tb_regente r ON "
-    + "u.idt_cod_usuario = r.cod_usuario WHERE lgn_usuario = '" + username + "' AND pss_usuario = '" + password + "'";
-    // verifica se usuário e senha foram preenchidos
+    // SQL Select searching for register that matchs with the User and Password of the request. 
+    var sql = "SELECT u.nme_usuario, u.lgn_usuario, u.pss_usuario, u.eml_usuario, r.idt_cod_regente, r.bln_admin_regente " 
+    + `FROM tb_usuario u LEFT JOIN tb_regente r ON u.idt_cod_usuario = r.cod_usuario WHERE lgn_usuario = "${username}"`;
+    // Checks if user and password have been filled
     if (username && password) {
 		db.query(sql, function(error, results, fields) {
-            // verifica se existe algum registro com usuario e senha iguais aos digitados
-			if (results.length > 0) {
+            console.log(results[0]);
+            // Checks if user was found and the filled password matchs with the stored password
+			if (results.length > 0 && bcrypt.compareSync(password, results[0].pss_usuario)) {
 				request.session.loggedin = true;
                 request.session.username = username;
-            // verifica se usuário é regente   
-            console.log(results[0]); 
+            // Checks if user is a Regent   
             if(results[0].idt_cod_regente != null){
                 request.session.isRegente = true;
-                //verifica se regente é admin
+                // Checks if user is admin
                 if(results[0].bln_admin_regente) {
                     request.session.isAdmin = true;
                 }
-            }                     
+            }
+            // TODO: Change redirect route after authentication     
             response.redirect('/home');
 			} else {
+                // TODO: Responses in a alert or other component
 				response.send('Usuário e/ou senha incorreta(s)!');
 			}			
 			response.end();
