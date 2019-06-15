@@ -9,8 +9,7 @@ exports.signin = function(request, response) {
     + `FROM tb_usuario u LEFT JOIN tb_regente r ON u.idt_cod_usuario = r.cod_usuario WHERE lgn_usuario = "${username}"`;
     // Checks if user and password have been filled
     if (username && password) {
-		db.query(sql, function(error, results, fields) {
-            console.log(results[0]);
+        request.connection.query(sql, function(error, results, fields) {
             // Checks if user was found and the filled password matchs with the stored password
 			if (results.length > 0 && bcrypt.compareSync(password, results[0].pss_usuario)) {
 				request.session.loggedin = true;
@@ -30,7 +29,7 @@ exports.signin = function(request, response) {
 				response.send('Usuário e/ou senha incorreta(s)!');
 			}			
 			response.end();
-		});
+        });
 	} else {
 		response.send('Usuário e senha obrigatórios.');
 		response.end();

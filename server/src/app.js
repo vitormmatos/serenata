@@ -1,15 +1,20 @@
-var mysql = require('mysql');
-var express = require('express');
-var session = require('express-session');
-var bodyParser = require('body-parser');
-var path = require('path');
-var user = require('./routes/user.js');
-var index = require('./routes/index.js');
-var app = express();
-var router = express.Router();
-var bcrypt = require('bcrypt');
-var salt = bcrypt.genSaltSync(10);
+const express = require('express')
+, session = require('express-session')
+, bodyParser = require('body-parser')
+, path = require('path')
+, user = require('./routes/user.js')
+, index = require('./routes/index.js')
+, app = express()
+, bcrypt = require('bcrypt')
+, salt = bcrypt.genSaltSync(10)
+, pool = require('./config/pool-factory')
+, connectionMiddleware = require('./config/connection-middleware');
 
+app.use(connectionMiddleware(pool));
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+	res.status(500).json({ error: err.toString() });
+});
 app.use(session({
 	secret: 'hakuna matata',
 	resave: true,
@@ -18,80 +23,77 @@ app.use(session({
 }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use('/', router);
-
-// Database connection
-var connection = mysql.createConnection({
-	host: 'localhost',
-	user: 'root',
-	password: 'password',
-	database: 'serenata'
-});
-
-connection.connect();
-// Global connection object
-global.db = connection;
-
-// Function that executes sql queries
-function execSQLQuery(sqlQry, res){
-  connection.query(sqlQry, function(error, results, fields){
-      if(error) 
-        res.json(error);
-      else
-        res.json(results);
-      connection.end();
-      console.log('executou!');
-  });
-}
 
 /*
 * Routes
 */
-router.get('/', (req, res) => res.json({ message: 'Funcionando!' }));
-router.get('/login', function (request, response) {
+app.get('/', (req, res) => res.json({ message: 'Funcionando!' }));
+app.get('/login', function (request, response) {
 	response.sendFile(path.join(__dirname + '/views/login.html'));
 });
-router.post('/auth', user.signin);
-router.get('/home', function (request, response) {
+app.post('/auth', user.signin);
+app.get('/home', function (request, response) {
 	if (request.session.loggedin) {
 		response.send('Bem vindo, ' + request.session.username + '!');
 	} else {
 		response.send('Logue para ver esta página!');
 	}
-	response.end();
 });
 
 /*
 * APIs
 */
-// Return all users
-router.get('/usuarios', (req, res) => {
-	execSQLQuery('SELECT * FROM tb_usuario', res); 
+// -------------- Usuário --------------- //
+app.get('/usuarios', (req, res) => {
+	req.connection.query('SELECT * FROM tb_usuario', (err, results) => {
+		if(err) return next(err);
+		res.json(results);
+	});
 });
 
-// Return user by id
-router.get('/usuarios/id/:id?', (req, res) => {
+app.get('/usuarios/:id?', (req, res) => {
 	let filter = '';
 	if (req.params.id) filter = ' WHERE idt_cod_usuario=' + parseInt(req.params.id);
-	execSQLQuery('SELECT * FROM tb_usuario' + filter, res);
+	req.connection.query('SELECT * FROM tb_usuario' + filter, (err, results) => {
+		if(err) return next(err);
+		res.json(results);
+	});
 });
 
-// Return user by username
-router.get('/usuarios/username/:username?', (req, res) => {
+app.get('/usuarios/username/:username?', (req, res) => {
 	let filter = '';
 	if (req.params.username) filter = ' WHERE lgn_usuario="' + req.params.username + '"';
-	execSQLQuery('SELECT * FROM tb_usuario' + filter, res);
+	execSQLQuery('SELECT * FROM tb_usuario' + filter, (err, results) => {
+		if(err) return next(err);
+		res.json(results);
+	});
 });
 
-// Insert new user
-router.post('/usuarios', (req, res) => {
+app.post('/usuarios', (req, res) => {
 	const name = req.body.nme_usuario.substring(0,150);
 	const username = req.body.lgn_usuario.substring(0,150);
 	// Encryption of the password
 	const password = bcrypt.hashSync(req.body.pss_usuario, salt);
 	const email = req.body.eml_usuario; 
 	execSQLQuery('INSERT INTO tb_usuario (nme_usuario, lgn_usuario, pss_usuario, eml_usuario)'
-	+ `VALUES ('${name}','${username}','${password}','${email}');`, res);
-})
+	+ `VALUES ('${name}','${username}','${password}','${email}');`, (err, results) => {
+		if(err) return next(err);
+		res.json(results);
+	});
+});
+
+app.patch('/usuarios/:id', (req, res) => {
+	const id = parseInt(req.params.id)
+	const name = req.body.nme_usuario.substring(0,150);
+	const username = req.body.lgn_usuario.substring(0,150);
+	// Encryption of the password
+	const password = bcrypt.hashSync(req.body.pss_usuario, salt);
+	const email = req.body.eml_usuario; 
+	req.connection.query(`UPDATE tb_usuario SET nme_usuario = '${name}', lgn_usuario = '${username}', pss_usuario = '${password}',`
+	+` eml_usuario = '${email}' WHERE idt_cod_usuario = ${id}`, (err, results) => {
+		if(err) return next(err);
+		res.json(results);
+	});
+});
 
 app.listen(3000);
