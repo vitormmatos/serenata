@@ -1,0 +1,50 @@
+@import '../../screen-sizes.scss';
+
+.video{
+    padding-top: 20px;
+    display: block;
+    margin: 0 auto;
+    @include scaling(s){
+        width: 400px;
+        height: 200px;
+    }
+}
+
+h1, h3{
+    text-align: center;
+    margin-bottom: 5vh;
+    color: red;
+    margin-top: 5vh;
+}
+
+p{
+    font-family: 'Roboto', sans-serif;
+    padding-left: 1em;
+    padding-right: 1em;
+    color: grey;
+    letter-spacing: 1px;
+    text-align: justify;
+}
+
+.intro{
+    margin-top: 5vh;
+}
+
+.workshop{
+    float: left;
+}
+
+@include scaling(ns){
+    .history, .social, .organization, .spectacle{
+        width: 50%;
+        margin: 0 auto;
+    }
+
+    .history, .social, .organization{
+        float: left;
+    }
+    
+    .spectacle{
+        float: right;
+    }
+}

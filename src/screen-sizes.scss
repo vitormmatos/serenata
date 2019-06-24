@@ -1,0 +1,67 @@
+/* ----------- Generic Viewports ----------- */
+
+$xsmall:     "(max-width: 479px)";
+$sm:         "(max-width: 599px)";
+$not-sm:     "(min-width: 600px)";
+$medium:     "(max-width: 767px)";
+$large:      "(max-width: 1024px)";
+$largeOnly:  "(min-width: 768px) and (max-width: 1024px)";
+$xxl:        "(min-width: 1200px)";
+$tall:       "(min-height: 780px)";
+
+/* ----------- iPhone 4 and 4S ----------- */
+
+$iphone-4-portrait-and-landscape: 
+only screen and (min-device-width: 320px) 
+and (max-device-width: 480px)
+and (-webkit-min-device-pixel-ratio 2);
+
+$iphone-4-portrait:
+only screen 
+and (min-device-width: 320px) 
+and (max-device-width: 480px)
+and (-webkit-min-device-pixel-ratio 2)
+and (orientation portrait);
+
+$iphone-4-landscape:
+only screen 
+and (min-device-width: 320px) 
+and (max-device-width: 480px)
+and (-webkit-min-device-pixel-ratio 2)
+and (orientation landscape);
+
+/* -------------- Laptops --------------- */
+
+$laptop-non-retina: 
+screen 
+and (min-device-width: 1200px) 
+and (max-device-width: 1600px) 
+and (-webkit-min-device-pixel-ratio 1);
+
+$laptop-retina:
+screen 
+and (min-device-width: 1200px) 
+and (max-device-width: 1600px) 
+and (-webkit-min-device-pixel-ratio 2)
+and (min-resolution 192dpi);
+
+@mixin scaling($viewport) {
+    
+    $exportedViewport: map-get((
+    xs: $xsmall,
+    s: $sm,
+    ns: $not-sm,
+    m: $medium,
+    l: $large,
+    l-only: $largeOnly,
+    xxl: $xxl,
+    tall: $tall,
+    iphone-4-portrait-and-landscape: $iphone-4-portrait-and-landscape,
+    iphone-4-portrait: $iphone-4-portrait,
+    iphone-4-landscape: $iphone-4-landscape,
+    laptop-non-retina: $laptop-non-retina,
+    laptop-retina: $laptop-retina
+    ), $viewport);
+
+    @media #{$exportedViewport} { @content; }
+}

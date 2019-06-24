@@ -1,0 +1,40 @@
+.registeredUsers, .userCreation{
+  padding-top: 20px;
+ // font-family: 'Roboto', serif;
+ color: #12110E;
+}
+
+.title{
+  font-family: 'Fira Sans', sans-serif;
+  text-shadow: 1px 1px 0 #000;
+}
+
+ mat-card-content{
+   padding-top: 15px;
+}
+// .avatar{
+//   width: 70px;
+//   height: 70px;
+//   border-radius: 50%;
+// }
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+h2{
+  font-size: 20px;
+  text-shadow: 2px 2px 0 #E7E7E7;
+}
+
+.example-card {
+  max-width: 310px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}

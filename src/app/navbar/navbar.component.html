@@ -1,15 +1,13 @@
 <div class="navbar">
-  
-  <mat-toolbar color="primary">
-  
+  <mat-toolbar class="toolbar" color="primary">
+
     <button mat-icon-button (click)="sidenav.toggle()">
       <mat-icon class="menu">menu</mat-icon>
     </button>
-    <span>Serenata de Natal</span>    
+    <span class="logo-text">Serenata de Natal</span>    
     <img class="logo" src="../../assets/logo.png" />
-    <!-- This fills the remaining space of the current row -->
     <span class="example-fill-remaining-space"></span>
-  
+
     <app-search-bar></app-search-bar>    
   </mat-toolbar>
 
@@ -17,7 +15,7 @@
 
     <router-outlet></router-outlet>
 
-    <mat-sidenav #sidenav>
+    <mat-sidenav mode="push" #sidenav>
     
       <mat-toolbar color="accent">
         <mat-toolbar-row class="toolbar-row">
@@ -40,7 +38,7 @@
         
       <app-menu-item [icon]='homeIcon' [text]='homeText' [link]='homeLink'></app-menu-item>        
       <app-menu-item [icon]='imageIcon' [text]='imageText' [link]='imageLink'></app-menu-item>        
-      <app-menu-item [icon]='musicIcon' [text]='musicText' [link]='musicLink'></app-menu-item>
+      <!-- <app-menu-item [icon]='musicIcon' [text]='musicText' [link]='musicLink'></app-menu-item> -->
       <app-menu-item [icon]='infoIcon' [text]='infoText' [link]='infoLink'></app-menu-item>
 
       <mat-toolbar class="media-toolbar" color="accent">
@@ -51,7 +49,7 @@
           <app-media-icon [link]='githubLink' [icon]='githubIcon'></app-media-icon>
         </mat-toolbar-row>
       </mat-toolbar>
-  
-   </mat-sidenav>
+
+    </mat-sidenav>
   </mat-sidenav-container>
 </div>

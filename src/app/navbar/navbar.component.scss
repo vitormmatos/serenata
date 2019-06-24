@@ -1,16 +1,27 @@
-.navbar {
-  height: 100vh;
-}
-
 .example-fill-remaining-space {
   /* This fills the remaining space, by using flexbox.
 Every toolbar row uses a flexbox row layout. */
   flex: 1 1 auto;
 }
 
-.menu {
-  color: white;
+.navbar {
+  height: 92vh;
+}
+
+.toolbar{
+  z-index: 5;
+}
+
+.logo-text{
+  padding-top: 10px;
+  font-family: 'Pacifico', cursive;
+  font-size: 30px;
+}
+
+.menu-button .menu {
+  color: black;
   padding-right: 30px;
+  z-index: 3;
 }
 
 .logo {
@@ -24,17 +35,14 @@ Every toolbar row uses a flexbox row layout. */
   text-align: left;
 }
 
-.menu-icon {
-  margin-right: 5px;
-}
-
 .media-toolbar {
-  position: fixed;
+  position: absolute;
   bottom: 0;
 }
 
 .sidenav {
   height: 100%;
+  z-index: 4;
 }
 
 .toolbar-row {

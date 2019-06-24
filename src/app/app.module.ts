@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,7 +15,8 @@ import { MatToolbarModule,
          MatSidenavModule,
          MatFormFieldModule,
          MatInputModule,
-         MatButtonModule
+         MatButtonModule,
+         MatCardModule
        } from '@angular/material';
 import { MenuItemComponent } from './menu-item/menu-item.component';
 import { MediaIconComponent } from './media-icon/media-icon.component';
@@ -25,6 +27,8 @@ import { HomeComponent } from './home/home.component';
 import { GaleriaComponent } from './galeria/galeria.component';
 import { PartiturasComponent } from './partituras/partituras.component';
 import { InfoComponent } from './info/info.component';
+import { UserComponent } from './user/user.component';
+import { ConfigComponent } from './config/config.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -32,7 +36,8 @@ const appRoutes: Routes = [
   { path: 'galeria', component: GaleriaComponent },
   { path: 'partituras', component: PartiturasComponent },
   { path: 'info', component: InfoComponent },
-  { path: '**', component: PageNotFoundComponent }
+  // { path: 'usuarios', component: UserComponent },
+  { path: '**', redirectTo: 'home' }
 ];
 
 @NgModule({
@@ -48,7 +53,9 @@ const appRoutes: Routes = [
     HomeComponent,
     GaleriaComponent,
     PartiturasComponent,
-    InfoComponent
+    InfoComponent,
+    UserComponent,
+    ConfigComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -64,6 +71,8 @@ const appRoutes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
+    MatCardModule,
+    HttpClientModule,
     RouterModule
   ],
   providers: [],
